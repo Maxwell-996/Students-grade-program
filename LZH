@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <stdlib.h>
+unsigned long long student_number[101],grade[101];
+unsigned long long gradetem[101],student_numbertem[101];
+int part[6],cnt1=1,cnt2=1,cnt3=1;
+int Input_record()
+{int n,i;
+    printf("How many students?\n");
+scanf("%d",&n);
+cnt2=n;
+printf("please input the relative information:\n");
+for(i=1;i<=n;i++)
+{
+    scanf("%llu%llu",&student_number[i],&grade[i]);
+}
+    return n;
+}
+void Calculate_total_and_average_score_of_course(int n)
+{int i,s=0;
+    printf("total:\n");
+    for(i=1;i<=n;i++)
+    {s+=grade[i];}
+    printf("%d\n",s);
+    printf("average:");
+    double average=(double)s/n;
+    printf("%.2f\n",average);
+    return ;
+}
+void Sort_in_descending_order_by_score(int n)
+{int i,cnt=1;
+
+    for(i=2;i<=n;i++)
+    {
+      if(gradetem[i]>gradetem[cnt]) cnt=i;
+    }
+    printf("第%d名:%llu %llu\n",cnt1,student_numbertem[cnt],gradetem[cnt]);
+    if(n==1){return ;}
+    gradetem[cnt]=gradetem[n];student_numbertem[cnt]=student_numbertem[n];n--;
+    cnt1++;Sort_in_descending_order_by_score(n);
+}
+void Sort_in_ascending_order_by_score(int n)
+{int i,cnt=1;
+
+     for(i=2;i<=n;i++)
+    {
+      if(gradetem[i]<gradetem[cnt]) cnt=i;
+    }
+    printf("第%d名:%llu %llu\n",cnt2,student_numbertem[cnt],gradetem[cnt]);
+    if(n==1){return ;}
+    gradetem[cnt]=gradetem[n];student_numbertem[cnt]=student_numbertem[n];n--;
+    cnt2--;Sort_in_ascending_order_by_score(n);
+}
+void Sort_in_ascending_order_by_students_ID(int n)
+{int i,cnt=1;
+
+    for(i=2;i<=n;i++)
+    {
+      if(student_numbertem[i]<student_numbertem[cnt]) cnt=i;
+    }
+    printf("第%d名:%llu %llu\n",cnt3,student_numbertem[cnt],gradetem[cnt]);
+    if(n==1){return ;}
+    gradetem[cnt]=gradetem[n];student_numbertem[cnt]=student_numbertem[n];n--;
+    cnt3++;Sort_in_ascending_order_by_students_ID(n);
+}
+void Search_by_students_ID(int n)
+{unsigned long long ID;
+int i=1;
+printf("please input the ID:");
+scanf("%llu",&ID);
+while(student_number[i]!=ID&&i<=n)
+{i++;}
+if(i==n) {printf("no result");return ;}
+printf("%llu:%llu\n",student_number[i],grade[i]);
+return ;
+}
+void sb(int a)
+{switch(a)
+{case 1:printf("不及格:");break;
+ case 2:printf("中等:");break;
+ case 3:printf("及格:");break;
+ case 4:printf("良好:");break;
+ case 5:printf("优秀:");break;
+ default:break;
+}return ;}
+void Statistic_analysis(int n)
+{int i;
+double ans;
+printf("the Statistic_analysis is:\n");
+for(i=1;i<=n;i++)
+{if(grade[i]/10<=5) {part[1]++;continue;}
+if(grade[i]/10==6) {part[2]++;continue;}
+if(grade[i]/10==7) {part[3]++;continue;}
+if(grade[i]/10==8) {part[4]++;continue;}
+if(grade[i]/10>=9) {part[5]++;continue;}
+}for(i=1;i<=5;i++)
+{ans=(double)part[i]/(double)n*100;
+sb(i);
+printf("%.0f%%\n",ans);
+}return ;
+}
+
+void List_record(int n)
+{int i;
+printf("the List_record is:\n");
+for(i=1;i<=n;i++)
+{printf("%llu:%llu\n",student_number[i],grade[i]);}
+    return ;
+}
+void gg(int n)
+{int i;
+   for(i=1;i<=n;i++)
+    {student_numbertem[i]=student_number[i];
+        gradetem[i]=grade[i];
+    } return ;
+}
+int main()
+{printf("number:200810318\nname:李忠浩\nSubject No.5-program No.1\n");
+printf("1.Input record\n2. Calculate total and average score of course\n3. Sort in descending order by score\n4.Sort in ascending order by score\n5. Sort in ascending order by student's ID\n7．Statistic analysis\n8．List record\n9．Exit\n");
+int choice,n;
+while(choice!=9)
+{printf("Please enter your choice:\n");
+    scanf("%d",&choice);
+    switch (choice)
+    {case 1:n=Input_record();break;
+    case 2:Calculate_total_and_average_score_of_course(n);;break;
+    case 3:gg(n);printf("the descending rank of score：\n");Sort_in_descending_order_by_score(n);cnt1=1;break;
+    case 4:gg(n);printf("the ascending rank of score：\n");Sort_in_ascending_order_by_score(n);cnt2=1;break;
+    case 5:gg(n);printf("the ascending rank of students_ID：\n");Sort_in_ascending_order_by_students_ID(n);cnt3=1;break;
+    case 6:Search_by_students_ID(n);break;
+    case 7:Statistic_analysis(n);break;
+    case 8:List_record(n);break;
+    case 9:break;
+    default:printf("input error");
+    }}
+    return 0;
+}
